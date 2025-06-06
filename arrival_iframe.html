@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>入荷商品 - 新着</title>
+<style>
+body {
+  font-family: sans-serif;
+  background: #ffffff;
+  padding: 10px;
+  margin: 0;
+}
+h2 {
+  font-size: 20px;
+  margin: 10px 0;
+  color: #333;
+}
+.carousel-container {
+  position: relative;
+  max-width: 1200px;
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 30px;
+}
+.item {
+  background: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  min-width: calc(100% / 5 - 16px);
+  max-width: calc(100% / 5 - 16px);
+  box-sizing: border-box;
+}
+.item img {
+  height: 180px;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.item .title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: calc(1.2em * 2);
+  line-height: 1.2;
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+.item .price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-top: 6px;
+}
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.arrow.left {
+  left: 5px;
+}
+.arrow.right {
+  right: 5px;
+}
+.carousel-link-button {
+  position: absolute;
+  bottom: 10px;
+  right: 60px;
+  background: #ffffff;
+  color: #333;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  z-index: 2;
+}
+.carousel-link-button:hover {
+  background: #f5f5f5;
+}
+@media screen and (max-width: 1024px) {
+  .item {
+    min-width: calc(100% / 4 - 16px);
+    max-width: calc(100% / 4 - 16px);
+  }
+  .item .title {
+    font-size: 13px;
+  }
+  .item .price {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .item {
+    min-width: calc(100% / 3 - 16px);
+    max-width: calc(100% / 3 - 16px);
+  }
+  .item .title {
+    font-size: 12px;
+  }
+  .item .price {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .item {
+    min-width: calc(100% / 2 - 16px);
+    max-width: calc(100% / 2 - 16px);
+  }
+  .item img {
+    height: 160px;
+  }
+  .item .title {
+    font-size: 11px;
+  }
+  .item .price {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2>入荷商品 - 新着</h2>
+
+<div class="carousel-container">
+  <button class="arrow left" onclick="scrollCarousel(-1)">&#8249;</button>
+  <div class="carousel" id="carousel">
+
+    <!-- ▼ここに arrival_data の商品HTMLを手動 or 自動で生成して入れる▼ -->
+    <!-- 例： -->
+    <div class="item">
+      <a href="https://www.ryuunoshippo.com/product/74374" target="_blank">
+        <img src="https://www.ryuunoshippo.com/data/win-w/product/LO/2025/BP02/240930509.jpg" alt="">
+        <p class="title">フリン・ライダー - オレの最大のファンであるオレ(レア)(82/204)</p>
+        <p class="price">200 円</p>
+      </a>
+    </div>
+
+    <!-- ↑この <div class="item"> を arrival_data で複製して流し込み -->
+
+  </div>
+  <a href="https://www.ryuunoshippo.com/page/27" target="_blank" class="carousel-link-button">一覧を見る</a>
+  <button class="arrow right" onclick="scrollCarousel(1)">&#8250;</button>
+</div>
+
+<script>
+const carousel = document.getElementById('carousel');
+const itemWidth = () => carousel.querySelector('.item').offsetWidth + 16;
+let autoSlideInterval;
+
+function scrollCarousel(d) {
+  carousel.scrollBy({
+    left: d * itemWidth(),
+    behavior: 'smooth'
+  });
+}
+
+function startAutoSlide() {
+  autoSlideInterval = setInterval(() => {
+    if (carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 5) {
+      carousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carousel.scrollBy({ left: itemWidth(), behavior: 'smooth' });
+    }
+  }, 3000);
+}
+
+function stopAutoSlide() {
+  clearInterval(autoSlideInterval);
+}
+
+carousel.addEventListener('mouseenter', stopAutoSlide);
+carousel.addEventListener('mouseleave', startAutoSlide);
+startAutoSlide();
+</script>
+
+</body>
+</html>
